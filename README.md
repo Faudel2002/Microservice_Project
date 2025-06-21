@@ -24,7 +24,8 @@ Relations : SE_SITUE_A
 
 Dans un un terminal à la racine du projet :
 
-docker-compose build 
+docker-compose build ensuite 
+
 docker-compose up
 
 Lancer les swager dans un navigateur : 
@@ -49,7 +50,11 @@ Télécharger DBeaver.
 Créer une nouvelle connexion PostgreSQL avec :
 
 Host : localhost 
+
 Port : 5432 
-Database : voyage_db 
+
+Database : voyage_db
+
 Username : postgres 
+
 Password : root
