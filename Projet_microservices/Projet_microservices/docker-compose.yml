@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: voyage_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker/postgresql:/docker-entrypoint-initdb.d
+    networks:
+      - voyage_net
+
+  mongodb:
+    image: mongo:6
+    container_name: mongo_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./docker/mongodb:/docker-entrypoint-initdb.d
+    networks:
+      - voyage_net
+
+  neo4j:
+    build:
+      context: ./docker/neo4j
+    container_name: neo4j_db
+    environment:
+      NEO4J_AUTH: neo4j/faudel2002
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    networks:
+      - voyage_net
+
+
+  poi_service:
+    build:
+      context: ./Poi_service/Poi_service
+    ports:
+      - "8001:8001"
+    depends_on:
+      - mongodb
+    networks:
+      - voyage_net
+
+  ville_service:
+    build:
+      context: ./Ville_service/Ville_service
+    ports:
+      - "8002:8002"
+    depends_on:
+      - neo4j
+    networks:
+      - voyage_net
+
+  voyage_service:
+    build:
+      context: ./Voyage_service/Voyage_service
+    ports:
+      - "8003:8003"
+    depends_on:
+      - postgres
+    networks:
+      - voyage_net
+
+networks:
+  voyage_net:
+    driver: bridge
