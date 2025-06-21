@@ -41,7 +41,7 @@ http://localhost:7474
 
 **Pour MongoDB** 
 
-mongodb://localhost:27017
+mongodb://localhost:27017 puis ouvrir dans MongoDB Compass
 
 **Pour PostgreSQL**
 
